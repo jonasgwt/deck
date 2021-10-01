@@ -11,15 +11,10 @@ import os
 from django.utils.encoding import force_text, smart_str
 from django.contrib.auth.models import User
 from django import forms
-
 import os
 from django.conf import settings
-
 from inventory.models import UserExtras
-def handle_uploaded_file(f):  
-    with open(os.path.join(settings.MEDIA_ROOT, "user_dp", f.name), 'wb+') as destination:  
-        for chunk in f.chunks():  
-            destination.write(chunk)
+
 
 class ImageUploadForm(forms.Form):
     """Image upload form."""
