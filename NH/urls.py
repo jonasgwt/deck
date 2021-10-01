@@ -24,6 +24,8 @@ urlpatterns = [
     path("r'^login/$'", views.login_view, name="login_view"),
     path("", views.main_index, name="main_index"),
     path("logout", views.logout_view, name="logout_view"),
-    path("home/", include("inventory.urls")),
+    path("inventory/", include("inventory.urls")),
     path("users", views.user_list, name="user_list"),
+    path("development", views.development, name="development"),
+    path("user_info", views.user_info, name="user_info"),
 ]

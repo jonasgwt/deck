@@ -10,7 +10,20 @@ import datetime
 import os
 from django.utils.encoding import force_text, smart_str
 from django.contrib.auth.models import User
+from django import forms
 
+import os
+from django.conf import settings
+
+from inventory.models import UserExtras
+def handle_uploaded_file(f):  
+    with open(os.path.join(settings.MEDIA_ROOT, "user_dp", f.name), 'wb+') as destination:  
+        for chunk in f.chunks():  
+            destination.write(chunk)
+
+class ImageUploadForm(forms.Form):
+    """Image upload form."""
+    image = forms.ImageField()
 
 def main_index(request):
     
@@ -58,3 +71,38 @@ def user_list(request):
     return render(request, "NH/user_list.html", {
         "users":User.objects.all()
     })
+
+@login_required(login_url="r'^login/$'")
+def development(request):
+    return render (request, "NH/development.html") 
+
+@login_required(login_url="r'^login/$'")
+def user_info(request):
+    if request.method == "POST":
+        new_username = request.POST.get('username', "")
+        new_firstname = request.POST.get('first_name', "")
+        new_lastname = request.POST.get('last_name', "")
+        f = request.FILES.get('image', None)
+        if new_username == "" or new_firstname =="" or new_lastname=="":
+            return render(request, "NH/error.html",{
+                "message" : "Ensure all fields are inputed correctly"
+            })
+        else:
+            request.user.username = new_username
+            request.user.first_name = new_firstname
+            request.user.last_name = new_lastname
+            if f != None:
+                form = ImageUploadForm(request.POST, request.FILES)
+                if form.is_valid():
+                    m = UserExtras.objects.get(user=request.user)
+                    if bool(m.profilepic) is not False:
+                        image_path = m.profilepic.path
+                        if os.path.exists(image_path):
+                            os.remove(image_path)
+                    m.profilepic = form.cleaned_data['image']
+                    m.save()
+            return render(request, "NH/main_index.html")
+    else:
+        return render(request, "NH/user_info.html",{
+            "user" : request.user
+        })

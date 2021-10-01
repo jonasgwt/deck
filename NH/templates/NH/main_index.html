@@ -2179,7 +2179,7 @@ a .icon-flip-vertical:before {
             </svg>
           </div>
           <p style="margin: 0px;margin-left: 5%;">Users List</p>
-        </div>
+        </div>     
 
         <!-- PC version-->
         <div id="slideshow-container" class="slideshow-container" >
@@ -2192,9 +2192,11 @@ a .icon-flip-vertical:before {
                 {%endif%}
                 <div style="display:flex;flex-direction:column;justify-content: center;text-align: left;">
                     <h3 style="margin: 0px;font-family: Arial, Helvetica, sans-serif;"><strong>{{request.user.first_name}}</strong></h3>
-                    <p style="margin-top: 5px;"><small>{{request.user.extras.first.role}}</small></p>
+                    <a href="{%url 'user_info'%}" style="z-index: 500;">
+                    <button type="button" class="btn btn-warning btn-sm" style="margin-bottom: 5px;margin-top: 5px;">Account Info</button>
+                    </a>
                     <a href="{%url 'logout_view'%}" style="z-index: 500;">
-                        <button type="button" class="btn btn-danger">Sign Out</button>
+                        <button type="button" class="btn btn-danger btn-sm">Sign Out</button>
                     </a>
                 </div>
             </div>
@@ -2211,8 +2213,14 @@ a .icon-flip-vertical:before {
                     <div class="image image2" style="background-image: url(/static/inventoryresource/bigkit.png);"></div>
                   </div>
                 </div>
+
+                <div class="slide">
+                  <div style="position:fixed;width:1000px;height:600px;background-color:white;background-color: transparent;z-index: 500;" onclick="portal()"></div>
+                  <span class="text layer1">Portal</span>
+                </div> 
           
                 <div class="slide">
+                  <div style="position:fixed;width:1000px;height:600px;background-color:white;background-color: transparent;z-index: 500;" onclick="development()"></div>
                   <span class="text layer1">Coming Soon</span>
                   <div class="image-container layer2">
                     <div class="image" style="background-image: url(https://raw.githubusercontent.com/maxym11/fancy-carousel-assets/master/CUUB%20PNK.png);"></div>
@@ -2228,15 +2236,9 @@ a .icon-flip-vertical:before {
                   <div class="image-container layer3">
                     <div class="image image2" style="background-image: url(https://raw.githubusercontent.com/maxym11/fancy-carousel-assets/master/SPHEER%20PNK.png);"></div>
                   </div>
-                </div>
+                </div>-->
           
-                <div class="slide">
-                  <span class="text layer1">SPHERE</span>
-                  <div class="image-container layer2">
-                    <div class="image" style="background-image: url(https://raw.githubusercontent.com/maxym11/fancy-carousel-assets/master/SPHEER%20PNK.png);"></div>
-                  </div>
-                </div> -->
-                
+                               
               </div>
             </div>
           
@@ -2265,8 +2267,8 @@ a .icon-flip-vertical:before {
         <div class="walkthrough-pagination">
             <a class="dot active"></a>
             <a class="dot"></a>
-            <!--
             <a class="dot"></a>
+            <!--
             <a class="dot"></a>
             <a class="dot"></a>
             -->
@@ -2286,6 +2288,19 @@ a .icon-flip-vertical:before {
                 <p>The Inventory Management System <p style="color: #ffa4a4;">(Under Development)</p></p>
             </li>
             <li class="screen">
+              <div class="media files">
+              <img class="icon" src="https://s3.amazonaws.com/jebbles-codepen/file_icon_1.png"/>
+              <img class="icon" src="https://s3.amazonaws.com/jebbles-codepen/file_icon_2.png"/>
+              <img class="icon" src="https://s3.amazonaws.com/jebbles-codepen/file_icon_3.png"/>
+              <img class="icon" src="https://s3.amazonaws.com/jebbles-codepen/file_icon_4.png"/>
+              </div>
+              <h3>
+              Portal
+              <br/>
+              </h3>
+              <p>Where you get your information</p>
+          </li>
+            <li class="screen">
                 <div class="media bars">
                 <img class="icon" src="https://s3.amazonaws.com/jebbles-codepen/bar_icon_axis.png"/>
                 <img class="icon" src="https://s3.amazonaws.com/jebbles-codepen/bar_icon_3.png"/>
@@ -2298,20 +2313,8 @@ a .icon-flip-vertical:before {
                 </h3>
                 <p>More will be coming soon here!</p>
             </li>
+            
             <!--
-            <li class="screen">
-                <div class="media files">
-                <img class="icon" src="https://s3.amazonaws.com/jebbles-codepen/file_icon_1.png"/>
-                <img class="icon" src="https://s3.amazonaws.com/jebbles-codepen/file_icon_2.png"/>
-                <img class="icon" src="https://s3.amazonaws.com/jebbles-codepen/file_icon_3.png"/>
-                <img class="icon" src="https://s3.amazonaws.com/jebbles-codepen/file_icon_4.png"/>
-                </div>
-                <h3>
-                Reporting
-                <br/>
-                </h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod </p>
-            </li>
             <li class="screen">
                 <div class="media comm">
                 <img class="icon" src="https://s3.amazonaws.com/jebbles-codepen/comm_icon_1.png"/>
@@ -2341,9 +2344,17 @@ a .icon-flip-vertical:before {
             function inventory(){
                 window.location="{%url 'inventory_index'%}"
             }
+            function portal(){
+                window.location.href = "https://nhhs-sjb.org/"
+            }
+            function development(){
+                window.location="{%url 'development'%}"
+            }
             function go(){
                 if(document.querySelector('.screen.active').querySelector('div').className=="media books" ){
                     window.location="{%url 'inventory_index'%}"
+                } else if (document.querySelector('.screen.active').querySelector('div').className=="media files"){
+                    window.location.href = "https://nhhs-sjb.org/"
                 }
             }
         </script>
@@ -2388,12 +2399,12 @@ a .icon-flip-vertical:before {
                 }, 1000);
                 });
 
-                const bg_color_options = ["#88D3CE", "#FF85A1", "#88D3CE", "#FF85A1"];
-                const text_color_options = ["#000", "#fff", "#000", "#fff"];
+                const bg_color_options = ["#88D3CE", "#141414", "#FF85A1"];
+                const text_color_options = ["#000", "#fff", "#fff"];
                 const arrow_color_options = [
                 "data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 256 256'%3E%3Cpolygon points='225.813,48.907 128,146.72 30.187,48.907 0,79.093 128,207.093 256,79.093' fill='%23000'%3E%3C/polygon%3E%3C/svg%3E",
                 "data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 256 256'%3E%3Cpolygon points='225.813,48.907 128,146.72 30.187,48.907 0,79.093 128,207.093 256,79.093' fill='%23fff'%3E%3C/polygon%3E%3C/svg%3E",
-                "data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 256 256'%3E%3Cpolygon points='225.813,48.907 128,146.72 30.187,48.907 0,79.093 128,207.093 256,79.093' fill='%23000'%3E%3C/polygon%3E%3C/svg%3E",
+                "data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 256 256'%3E%3Cpolygon points='225.813,48.907 128,146.72 30.187,48.907 0,79.093 128,207.093 256,79.093' fill='%23fff'%3E%3C/polygon%3E%3C/svg%3E",
                 "data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 256 256'%3E%3Cpolygon points='225.813,48.907 128,146.72 30.187,48.907 0,79.093 128,207.093 256,79.093' fill='%23fff'%3E%3C/polygon%3E%3C/svg%3E"
                 ];
                 var k = 0;
