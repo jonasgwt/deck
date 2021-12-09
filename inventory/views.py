@@ -37,7 +37,6 @@ from .secret import *
 import requests
 
 
-# Create your views here.
 
 #expiremental ordering
 #formula: attractability score = 1/((current time - median active time of item)/10000) * weight + (total times item appear in cart / total items in cart) * (1 - weight)
