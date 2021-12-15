@@ -74,6 +74,7 @@ def development(request):
 @login_required(login_url="r'^login/$'")
 def user_info(request):
     if request.method == "POST":
+        print(request.POST);
         new_username = request.POST.get('username', "")
         new_firstname = request.POST.get('first_name', "")
         new_lastname = request.POST.get('last_name', "")

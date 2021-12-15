@@ -37,6 +37,7 @@ from .secret import *
 import requests
 
 
+# Create your views here.
 
 #expiremental ordering
 #formula: attractability score = 1/((current time - median active time of item)/10000) * weight + (total times item appear in cart / total items in cart) * (1 - weight)
@@ -45,7 +46,7 @@ def orderfaitems():
     all_attractability=[]
     outcome=[]
     now = datetime.datetime.now().time()
-    #adjust weight here (higher weight means more emphasis on time sorting) (weight must be < 1)
+    #* adjust weight here (higher weight means more emphasis on time sorting) (weight must be < 1)
     weight = 0.1
     for i in all_inventory:
         #median time, popularity
@@ -76,7 +77,7 @@ def orderkits():
     attractability_scores=[]
     outcome=[]
     now = datetime.datetime.now().time()
-    #adjust weight here (higher weight means more emphasis on time sorting) (weight must be < 1)
+    #*adjust weight here (higher weight means more emphasis on time sorting) (weight must be < 1)
     weight = 0.1
     for k in all_kits:
         #median time, popularity
@@ -136,18 +137,18 @@ def update_transact_time(order, type):
             i.save()
 
 
-#uncomment to enable telegram updates
+#!uncomment to enable telegram updates
 """ def telegram_bot_sendtext(bot_message):
     bot_chatID = group
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=HTML&text=' + bot_message
     response = requests.get(send_text)
     return response.json() """
 
-#delete to enable telegram updates
+#!delete to enable telegram updates
 def telegram_bot_sendtext(bot_message):
     pass
 
-#uncomment to enable telegram updates
+#!uncomment to enable telegram updates
 """ def telegram_bot_sendpmphoto(bot_message, person, photo):
     
     if person == "eriol":
@@ -165,7 +166,7 @@ def telegram_bot_sendtext(bot_message):
         response = requests.get(send_text)
         return response.json() """
 
-#delete to enable telegram updates
+#!delete to enable telegram updates
 def telegram_bot_sendpmphoto(bot_message, person, photo):
     pass
 

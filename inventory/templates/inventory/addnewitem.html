@@ -90,12 +90,12 @@
         <!-- Logged in user -->
             <div id="bigscreenuser">
                 <span class="navbar-text" style="margin-right: 20px;text-overflow: clip;white-space: nowrap;">
-                    Logged in as {{user.username}}
+                    Logged in as {{user.first_name}}
                 </span>
             </div>
             <div id="smallscreenuser" style="display: none;">
                 <span class="navbar-text" style="margin-right: 20px;text-overflow: clip;white-space: nowrap;">
-                    {{user.username}}
+                    {{user.first_name}}
                 </span>
             </div>
             <!-- Cart -->
@@ -191,8 +191,17 @@
                     </div>
                     <div class="form-floating" style="margin-top: 20px;width: 100%;">
                         <select class="form-select" id="itemunit" aria-label="itemunit" name="itemunit" style="height: fit-content;width: 100%;">
-                            <option value="Piece">Piece</option>
+                            <option value="Bag">Bag</option>
                             <option value="Bottle">Bottle</option>
+                            <option value="Box">Box</option>
+                            <option value="Bundle">Bundle</option>
+                            <option value="Cup">Cup</option>
+                            <option value="Packet">Packet</option>
+                            <option value="Pair">Pair</option>
+                            <option value="Piece">Piece</option>
+                            <option value="Roll">Roll</option>
+                            <option value="Set">Set</option>
+                            <option value="Tin">Tin</option>
                         </select>
                         <label for="itemunit" style="color: black;">Unit</label>
                     </div>
@@ -236,8 +245,17 @@
                 </div>
                 <div class="form-floating" style="margin-top: 20px;width: 100%;">
                     <select class="form-select" id="itemunit" aria-label="itemunit" name="itemunit" style="height: fit-content;width: 100%;">
-                        <option value="Piece">Piece</option>
+                        <option value="Bag">Bag</option>
                         <option value="Bottle">Bottle</option>
+                        <option value="Box">Box</option>
+                        <option value="Bundle">Bundle</option>
+                        <option value="Cup">Cup</option>
+                        <option value="Packet">Packet</option>
+                        <option value="Pair">Pair</option>
+                        <option value="Piece">Piece</option>
+                        <option value="Roll">Roll</option>
+                        <option value="Set">Set</option>
+                        <option value="Tin">Tin</option>
                     </select>
                     <label for="itemunit" style="color: black;">Unit</label>
                 </div>
@@ -272,6 +290,7 @@
                 <input class="form-control" list="itemnameslist" id="itemnames" placeholder="Type to search...">
                 <datalist id="itemnameslist">
                     {%for item in items|toaddexpiry%}
+                    {{item}}
                     <option value="{{item.name}}">{{item.name}}</option>
                     {%endfor%}
                 </datalist> 
@@ -341,11 +360,11 @@
                         <label for="newexpiry" style="color: black;">New Expiry</label>
                     </div>
                     <div class="form-floating" style="margin-top:10px;">
-                        <input type="number" class="form-control" id="openedqty" name="openedqty">
+                        <input type="number" class="form-control" id="openedqty" name="openedqty" min="0">
                         <label for="openedqty" style="color: black;">Opened Qty</label>
                     </div>
                     <div class="form-floating" style="margin-top:10px;">
-                        <input type="number" class="form-control" id="unopenedqty" name="unopenedqty">
+                        <input type="number" class="form-control" id="unopenedqty" name="unopenedqty" min="0">
                         <label for="unopenedqty" style="color: black;">Unopened Qty</label>
                     </div>
                 </div>
@@ -396,11 +415,11 @@
                         <label for="newexpiry" style="color: black; font-size: 3vw;">New Expiry</label>
                     </div>
                     <div class="form-floating" style="margin-top:10px;">
-                        <input type="number" class="form-control" id="openedqty" name="openedqty" style="font-size: 3vw;height: auto;">
+                        <input type="number" class="form-control" id="openedqty" name="openedqty" style="font-size: 3vw;height: auto;" min="0">
                         <label for="openedqty" style="color: black; font-size: 3vw;">Opened Qty</label>
                     </div>
                     <div class="form-floating" style="margin-top:10px;">
-                        <input type="number" class="form-control" id="unopenedqty" name="unopenedqty" style="font-size: 3vw;">
+                        <input type="number" class="form-control" id="unopenedqty" name="unopenedqty" style="font-size: 3vw;" min="0">
                         <label for="unopenedqty" style="color: black; font-size: 3vw;">Unopened Qty</label>
                     </div>
                 </div>
@@ -494,6 +513,9 @@
         if (openedqty == 0 && unopenedqty == 0){
                 return alert("Ensure you have filled up all fields correctly");
             }
+        if (!Number.isInteger(openedqty) || !Number.isInteger(unopenedqty)){
+            return alert("Ensure you have filled up all fields correctly");
+        }
         if (length == 0 && newexpiry == "" ){
             newexpiry = "No Expiry";
         } else if (length != 0 && newexpiry == ""){
@@ -591,8 +613,8 @@
         var unit = document.getElementById('itemunit').value;
         var min_qty_open = document.getElementById('min_qtyopen').value;
         var min_qty_unopened = document.getElementById('min_qtyunopened').value;
-        if (name == "" || type == "" || unit == "" || min_qty_open == "" || min_qty_unopened == ""){
-            alert("Ensure you have filled up all fields")
+        if (name == "" || type == "" || unit == "" || min_qty_open == "" || min_qty_unopened == "" || !Number.isInteger(min_qty_open) || !Number.isInteger(min_qty_unopened)){
+            alert("Ensure you have filled up all fields correctly!")
         } else {
             if (buttonText.innerHTML !== "Submit") {
                 buttonText.innerHTML = "Submit";

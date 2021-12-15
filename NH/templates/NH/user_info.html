@@ -38,6 +38,49 @@ body{
 input[type="file"] {
     display: none;
 }
+.profile-pic {
+	 color: transparent;
+	 transition: all 0.3s ease;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 position: relative;
+	 transition: all 0.3s ease;
+}
+ .profile-pic input {
+	 display: none;
+}
+ .profile-pic img {
+	 position: absolute;
+	 object-fit: cover;
+	 width: 165px;
+	 height: 165px;
+	 box-shadow: 0 0 10px 0 rgba(255, 255, 255, .35);
+	 border-radius: 100px;
+	 z-index: 0;
+}
+ .profile-pic .-label {
+	 cursor: pointer;
+	 height: 165px;
+	 width: 165px;
+}
+ .profile-pic:hover .-label {
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 background-color: rgba(0, 0, 0, .8);
+	 z-index: 10000;
+	 color: #fafafa;
+	 transition: background-color 0.2s ease-in-out;
+	 border-radius: 100px;
+	 margin-bottom: 0;
+}
+ .profile-pic span {
+	 display: inline-flex;
+	 padding: 0.2em;
+	 height: 2em;
+}
+ 
 </style>
 <body>
     <div style="position: absolute;display: flex;width: 100%;height: 100%;justify-content: center;align-items: center;">
@@ -45,11 +88,18 @@ input[type="file"] {
         box-shadow: 5px 5px 14px -3px rgba(0,0,0,0.71); padding: 10px;display: flex;justify-content: center;align-items: center;flex-direction: column;min-height: 750px;min-width: 450px;" 
         action="{%url 'user_info'%}" method="POST" enctype="multipart/form-data">
         {%csrf_token%}
-            {%if user.extras.first.profilepic%}
-                <img src="/uploaded/{{user.extras.first.profilepic}}" id="profilepic" style="width: 200px;height: 200px;object-fit: cover;border-radius: 200px;border: white 2px solid;">
-            {%else%}
-                <img src="/static/inventoryresource/blank_profile.webp" id="profilepic" style="width: 200px;height: 200px;object-fit: cover;border-radius: 200px;border: white 2px solid;">
-            {%endif%}
+            <div class="profile-pic">
+              <label class="-label" for="file">
+                <span class="glyphicon glyphicon-camera"></span>
+                <span>Change Image</span>
+              </label>
+              <input id="file" type="file" name="image" onchange="loadFile(event)"/>
+              {%if user.extras.first.profilepic%}
+                  <img src="/uploaded/{{user.extras.first.profilepic}}" id="output" width="200" >
+              {%else%}
+                  <img src="/static/inventoryresource/blank_profile.webp" id="output" width="200" >
+              {%endif%}
+            </div>
             <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
                 <p class="display-5" style="margin-top: 20px;margin-bottom: 10px;">Hi, {{user.first_name}}</p>
                 <p class="lead" style="margin-bottom: 20px;">{{user.extras.first.role}}</p>
@@ -69,10 +119,6 @@ input[type="file"] {
                 <!--
                 <button type="button" class="btn btn-outline-danger"style="margin-top: 10px;">Change Password</button>
                 -->
-                <label for="file-upload" class="custom-file-upload" style="margin-top: 10px;">
-                  <p class="btn btn-outline-secondary">Change Display Picture</p>
-              </label>
-              <input id="file-upload" type="file" name="image" onchange="changepreview(this)"/>
             </div>
         </form>
 
@@ -291,12 +337,9 @@ function fauxClick(x, y) {
 
 </script>
 <script>
-  function changepreview(a){
-    if (a.value == ""){
-            document.getElementById('profilepic').src = "/static/inventoryresource/blank_profile.webp"
-        } else {
-            document.getElementById('profilepic').src = window.URL.createObjectURL(a.files[0])
-        }
-  }
+  var loadFile = function (event) {
+    var image = document.getElementById("output");
+    image.src = URL.createObjectURL(event.target.files[0]);
+  };
 </script>
 </html>
