@@ -1,2 +1,5 @@
 
 .vscode/sftp.json
+*.pyc
+*~
+*.swp
