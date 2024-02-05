@@ -25,4 +25,5 @@ urlpatterns = [
     path("itemlist", views.item_data, name="item_data"),
     path("csv_creator/<str:mode>", views.csv_creator, name="csv_creator"),
     path("error/<str:error>", views.error, name="error"),
+    
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
