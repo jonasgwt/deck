@@ -18,6 +18,7 @@ from django.utils.encoding import force_text, smart_str
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 import random
 import math
 import re
@@ -37,7 +38,9 @@ from .secret import *
 import requests
 
 
+
 # Create your views here.
+
 
 #expiremental ordering
 #formula: attractability score = 1/((current time - median active time of item)/10000) * weight + (total times item appear in cart / total items in cart) * (1 - weight)
